@@ -1,0 +1,37 @@
+@import "~antd/lib/style/themes/default.less";
+
+.hum-header {
+  line-height: @layout-header-height;
+  height: @layout-header-height;
+  background-color: @layout-header-background;
+  display: flex;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.10);
+  position: relative;
+  z-index: 100;
+
+  &>.ant-menu {
+    flex: 1;
+  }
+
+  .ant-menu-horizontal {
+    display: flex;
+    align-items: center;
+    border-bottom: 0px solid #e8e8e8;
+  }
+
+  .userinfo {
+    margin-right: 24px;
+
+    .username {
+      opacity: 0.8;
+      margin-right: 20px;
+    }
+
+    .logout {
+      .anticon {
+        margin-right: 8px;
+      }
+    }
+  }
+}

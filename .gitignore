@@ -1,0 +1,16 @@
+.idea
+.DS_Store
+.vscode
+*.log
+coverage
+node_modules
+.happypack
+*.rej
+client/dll
+build
+views
+backup
+model
+config/development.app.yaml
+config/production.app.yaml
+/iconfont

@@ -1,0 +1,38 @@
+@import "~antd/lib/style/themes/default.less";
+
+.logo-link {
+  height: @layout-header-height;
+  line-height: @layout-header-height;
+  display: flex;
+  align-items: center;
+  padding-left: (@menu-collapsed-width - @layout-header-height / 2) / 2;
+  transition: all 0.2s;
+  background: #FF4A5C;
+  overflow: hidden;
+
+  img {
+    height: 32px;
+  }
+
+  h1 {
+    color: #fff;
+    font-size: 15px;
+    margin: 0 0 0 6px;
+    max-width: 140px;
+    height: 48px;
+    word-break: break-all;
+    overflow: hidden;
+  }
+}
+
+.iconfont {
+  min-width: 14px;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.ant-menu-inline-collapsed>.ant-menu-submenu>.ant-menu-submenu-title .iconfont+span {
+  display: inline-block;
+  max-width: 0;
+  opacity: 0;
+}
