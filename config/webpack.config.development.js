@@ -19,8 +19,7 @@ const isDllExist = fs.existsSync(dllPath)
 const config = {
   mode: 'development',
   entry: {
-    app: './app',
-    login: './login'
+    app: './app'
   },
   devtool: 'cheap-module-source-map',
   output: {
@@ -41,12 +40,6 @@ const config = {
       filename: 'index.html',
       template: 'public/index.html',
       chunks: ['app']
-    }),
-
-    new HtmlWebpackPlugin({
-      filename: 'login.html',
-      template: 'public/login.html',
-      chunks: ['login']
     }),
 
     ...(isDllExist

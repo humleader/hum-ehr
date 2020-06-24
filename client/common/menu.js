@@ -4,20 +4,15 @@ const menus = [
     icon: 'appstore-o',
     children: [
       {
-        name: '首页',
-        path: '/home',
-        icon: 'home'
-      },
-      {
         name: '工资管理',
         path: '/salary',
         icon: 'transaction'
-      },
-      {
-        name: '员工信息',
-        path: '/employee',
-        icon: 'team'
       }
+      // {
+      //   name: '员工信息',
+      //   path: '/employee',
+      //   icon: 'team'
+      // }
     ]
   }
 ]

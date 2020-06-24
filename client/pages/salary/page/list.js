@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 
 function mapStateToProps(state) {
   const salary = state.salary
-  const user = state.user
+  const common = state.common
   return {
     salary,
-    user
+    common
   }
 }
 

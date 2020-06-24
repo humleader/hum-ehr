@@ -1,19 +1,11 @@
 import im from 'immutable'
 import axios from 'common/axios'
 
-const getDefaultParams = () => {
-  return {
-    pageSize: 15,
-    pageIndex: 1
-  }
-}
-
 const initialState = im.fromJS({
-  list: {
-    loading: false,
-    params: getDefaultParams(),
-    defaultParams: getDefaultParams(),
-    dataSource: []
+  listSource: {},
+  params: {
+    pageSize: 20,
+    pageIndex: 1
   },
   editData: {}
 })
@@ -21,18 +13,11 @@ const initialState = im.fromJS({
 export default {
   state: initialState,
   reducers: {
-    list: (state, payload) => {
-      return state.update('list', list =>
-        list.set('dataSource', im.fromJS(payload)).set('loading', false)
-      )
+    listSource: (state, payload) => {
+      return state.set('listSource', im.fromJS(payload))
     },
     setParams: (state, payload) => {
-      return state.update('list', list =>
-        list.set('params', im.fromJS(payload)).set('loading', false)
-      )
-    },
-    loading: (state, payload) => {
-      return state.update('list', list => list.set('loading', true))
+      return state.set('params', im.fromJS(payload))
     },
     setEditData: (state, payload) => {
       return state.set('editData', im.fromJS(payload))
@@ -40,14 +25,10 @@ export default {
   },
   effects: {
     async query(params, rootState) {
-      const newParams = Object.assign(
-        rootState.project.getIn(['list', 'defaultParams']).toJS(),
-        params
-      )
-      this.loading()
-      const data = await axios.get('/salary/list', { params: newParams })
-      this.list(data)
-      this.setParams(newParams)
+      const data = await axios.get('/salary/list', { params })
+      this.listSource(data)
+      this.setParams(params)
+      return data
     },
     check(data, rootState) {
       return axios.post('/salary/check', data)

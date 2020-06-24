@@ -3,8 +3,6 @@ const Router = require('koa-router')
 const { apiPrefix } = require('utils/config')
 
 const home = require('controllers/home')
-const login = require('controllers/login')
-const logout = require('controllers/logout')
 const customRouter = require('./router')
 
 const router = new Router()
@@ -12,9 +10,6 @@ const router = new Router()
 // 首页
 router
   .get('/', home)
-  .get(`/changepwd`, login)
-  .get(`/login`, login)
-  .get(`/logout`, logout)
   // 路由定义
   .use(customRouter.routes())
   // 自动代理到 java 和 首页渲染

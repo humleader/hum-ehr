@@ -35,6 +35,7 @@ const AntdLayout = props => {
   useEffect(() => {
     setCollapsed(localStorage[collapsedKey] === 'true')
     action.getUserList()
+    action.queryRegions()
     return () => {}
   }, [])
 
@@ -52,7 +53,7 @@ const AntdLayout = props => {
       />
       <Layout>
         <PageHeader userInfo={userInfo} menus={mainMenu} selectedMenus={selectedMenus} />
-        <Layout.Content>{children}</Layout.Content>
+        <Layout.Content className="hum-content-container">{children}</Layout.Content>
       </Layout>
     </Layout>
   )

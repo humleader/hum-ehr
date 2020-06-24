@@ -1,13 +1,25 @@
-const { baseURI, appCode, apiPrefix, pageTitle } = require('utils/config')
+const { baseURI, appCode, apiPrefix, pageTitle, redis } = require('utils/config')
+const Redis = require('koa-redis')
+const Store = new Redis({
+  host: redis.host,
+  port: redis.port,
+  password: redis.password
+}).client
 // 获取用户列表
 
 const env = process.env.NODE_ENV || 'development'
 
 module.exports = async ctx => {
   const initState = getInitState()
+  const koaHum = await Store.get('KOA_HUM:' + ctx.cookies.get('HUM_SESS'))
+  ctx.session = {}
+  if (ctx.session && koaHum) {
+    ctx.session = JSON.parse(koaHum)
+  }
   const config = await getConfig(ctx)
-  if (!ctx.session.user) {
-    ctx.redirect(`/login?${encodeURIComponent(ctx.href)}`)
+
+  if (!ctx.session.user && env !== 'development') {
+    ctx.redirect(`/login?callbackUrl=${encodeURIComponent(ctx.path)}`)
   } else {
     await render(ctx)('index', {
       pageTitle,

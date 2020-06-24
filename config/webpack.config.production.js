@@ -25,8 +25,7 @@ const publicPath = `/${appName}/static/`
 const config = {
   mode: 'production',
   entry: {
-    app: './app',
-    login: './login'
+    app: './app'
   },
   devtool: false,
   output: {
@@ -79,13 +78,7 @@ const config = {
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: 'public/index.html',
-      chunks: ['styles', 'common', 'app']
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'login.html',
-      template: 'public/login.html',
-      chunks: ['styles', 'common', 'login']
+      template: 'public/index.html'
     })
   ]
 }

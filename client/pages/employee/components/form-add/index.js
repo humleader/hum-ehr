@@ -1,12 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Button, Form, Row, Col, Input, Select, message, DatePicker, Divider, Radio } from 'antd'
 import history from 'common/history'
 import staffCode from 'common/staffcode'
 import EditTable from '../edit-table'
-
-const { Fragment } = React
 
 const FormItem = Form.Item
 const { TextArea } = Input
@@ -193,9 +191,9 @@ class FormAdd extends Component {
                   showSearch
                   placeholder="请选择"
                   onChange={this.onChangestaffCode}
-                  filterOption={(input, option) =>
-                    option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                  }
+                  filterOption={(input, option) => {
+                    return option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }}
                 >
                   {this.renderStaffCode(staffcode)}
                 </Select>
@@ -208,9 +206,9 @@ class FormAdd extends Component {
               })(
                 <Select
                   showSearch
-                  filterOption={(input, option) =>
-                    option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                  }
+                  filterOption={(input, option) => {
+                    return option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }}
                   placeholder="请选择公司"
                 >
                   {this.renderOptions(toproject)}
@@ -468,7 +466,7 @@ class FormAdd extends Component {
               )}
             </FormItem>
             {fundStatus !== '' ? (
-              <>
+              <Fragment>
                 {fundStatus === 2 ? (
                   <>
                     <FormItem className="add-formitem" label="需缴存公司" {...formItemLayout50}>
@@ -494,7 +492,7 @@ class FormAdd extends Component {
                     })(<Input />)}
                   </FormItem>
                 )}
-              </>
+              </Fragment>
             ) : null}
 
             <div className="title">专项扣除</div>

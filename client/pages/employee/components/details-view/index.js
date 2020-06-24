@@ -171,7 +171,7 @@ class Views extends Component {
                 </>
               )}
               {maritalStatus === 3 ? (
-                <>
+                <Fragment>
                   <div className="title">子女信息</div>
                   <Divider className="dline" />
                   <FormItem className="add-basis100" {...formItemLayout}>
@@ -187,7 +187,7 @@ class Views extends Component {
                       />
                     )}
                   </FormItem>
-                </>
+                </Fragment>
               ) : null}
 
               <div className="title">联系住址</div>
