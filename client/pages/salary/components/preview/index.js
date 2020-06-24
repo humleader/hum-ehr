@@ -167,7 +167,7 @@ class Preview extends Component {
         </div>
         <iframe
           name="ifrmname"
-          src={`/hum/api/salary/preview?id=${id}`}
+          src={`/ehr/api/salary/preview?id=${id}`}
           width="100%"
           height="90%"
           frameBorder="0"

@@ -11,10 +11,7 @@ const HumQuery = props => {
   const { className, xTable, query, xForm, toolBar, initParams } = props
 
   const [loading, setLoading] = useState(false)
-  const [params, setParams] = useState({
-    pageSize: initParams.pageSize,
-    pageIndex: initParams.pageIndex
-  })
+  const [params, setParams] = useState(initParams)
 
   const doSearch = params => {
     setLoading(true)

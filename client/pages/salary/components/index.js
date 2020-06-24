@@ -102,7 +102,6 @@ const QueryList = props => {
       title: '操作',
       key: 'action',
       render: (text, record) => {
-        const { action } = this.props
         return (
           <span className="actions">
             <a
@@ -175,8 +174,9 @@ const QueryList = props => {
       title: '操作时间',
       type: 'month',
       dataIndex: 'createTime',
+      placeholder: '选择月份',
       formOptions: {
-        initialValue: moment()
+        initialValue: params.createTime
       }
     }
   ]
@@ -184,7 +184,7 @@ const QueryList = props => {
   const onRowClick = record => {
     return {
       onClick: () => {
-        history.push(`/salary/view/${record.id}`)
+        history.push(`/salary/preview/${record.id}`)
       }
     }
   }
@@ -209,7 +209,6 @@ const QueryList = props => {
           xTable={{
             columns,
             onRow: onRowClick,
-            scroll: { x: 1800 },
             dataSource: listSource
           }}
         />

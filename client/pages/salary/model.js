@@ -1,10 +1,12 @@
 import im from 'immutable'
 import axios from 'common/axios'
+import moment from 'moment'
 
 const initialState = im.fromJS({
   listSource: {},
   params: {
     pageSize: 20,
+    createTime: moment(),
     pageIndex: 1
   },
   editData: {}

@@ -1,4 +1,5 @@
 const Salary = require('daos/salary')
+const { Op } = require('sequelize')
 
 const getCurrentMonthLast = time => {
   let date = new Date()
@@ -21,19 +22,19 @@ module.exports = async ctx => {
     filter.sendStatus = sendStatus
   } else {
     filter.sendStatus = {
-      ne: 4
+      [Op.ne]: 4
     }
   }
   if (name) {
-    filter.$or = [
+    filter[Op.or] = [
       {
         chineseName: {
-          like: `%${name}%`
+          [Op.like]: `%${name}%`
         }
       },
       {
         englishName: {
-          like: `%${name}%`
+          [Op.like]: `%${name}%`
         }
       }
     ]
@@ -48,8 +49,8 @@ module.exports = async ctx => {
     const end = new Date(`${year}-${month}-${lastDay} 24:00:00`)
 
     filter.createTime = {
-      lt: end,
-      gt: start
+      [Op.lt]: end,
+      [Op.gt]: start
     }
   }
 
