@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import List from 'pages/salary/page/list'
+import List from './components'
 import Preview from './components/preview'
 
 class Salary extends Component {

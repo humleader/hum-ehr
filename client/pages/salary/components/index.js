@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import { connect } from 'react-redux'
 import moment from 'moment'
-import { Button, Popconfirm } from 'antd'
+import { Button, Popconfirm, Divider } from 'antd'
 import { Link } from 'react-router-dom'
 
 import './index.less'
@@ -10,6 +11,30 @@ import HumContainer from 'components/hum-container'
 import HumBreadcrumb from 'components/hum-breadcrumb'
 import HumQuery from 'components/hum-query'
 import ToolBar from 'components/tool-bar'
+import DotStatus from 'components/dot-status'
+
+const salaryMap = [
+  {
+    label: '发送失败',
+    value: 0,
+    color: '#357BFF'
+  },
+  {
+    label: '待发送',
+    value: 1,
+    color: '#ff7000'
+  },
+  {
+    label: '已发送',
+    value: 2,
+    color: '#07C790'
+  },
+  {
+    label: '未发送',
+    value: 3,
+    color: '#EF6555'
+  }
+]
 
 const QueryList = props => {
   const { salary, action, common } = props
@@ -32,16 +57,17 @@ const QueryList = props => {
   const columns = [
     {
       title: '中文名字',
-      width: '70px',
       dataIndex: 'chineseName',
       render: item => {
-        return <div className="chineseName">{item}</div>
+        return <div className="overflow-ellipsis">{item}</div>
       }
     },
     {
       title: '英文名字',
-      width: '90px',
-      dataIndex: 'englishName'
+      dataIndex: 'englishName',
+      render: item => {
+        return <div className="overflow-ellipsis">{item}</div>
+      }
     },
     {
       title: '邮箱',
@@ -57,14 +83,12 @@ const QueryList = props => {
     {
       title: '发送人',
       dataIndex: 'sendUserId',
-      width: '70px',
       render: item => {
         return showName(item)
       }
     },
     {
       title: 'check修改',
-      width: '80px',
       render: (text, record) => {
         const str = []
         if (record.isLogo) {
@@ -81,14 +105,12 @@ const QueryList = props => {
     },
     {
       title: '发送状态',
-      width: '80px',
+      width: '140px',
       dataIndex: 'sendStatus',
-      render: type => {
-        return (
-          <span className={`tags tag${type}`}>
-            {{ 0: '发送失败', 1: '待发送', 2: '已发送', 3: '未发送' }[type]}
-          </span>
-        )
+      render: item => {
+        const { color, label } = salaryMap[item]
+
+        return <DotStatus color={color} text={label} />
       }
     },
     {
@@ -114,21 +136,24 @@ const QueryList = props => {
               PDF预览
             </a>
             {record.sendStatus !== 2 ? (
-              <Popconfirm
-                placement="topRight"
-                title={
-                  <div>
-                    <p>你确定要删除吗？</p>
-                  </div>
-                }
-                onConfirm={() => {
-                  action.delete({ id: record.id }).then(res => {
-                    history.push(`/salary`)
-                  })
-                }}
-              >
-                <a href="javascript:;">删除</a>
-              </Popconfirm>
+              <Fragment>
+                <Divider type="vertical" />
+                <Popconfirm
+                  placement="topRight"
+                  title={
+                    <div>
+                      <p>你确定要删除吗？</p>
+                    </div>
+                  }
+                  onConfirm={() => {
+                    action.delete({ id: record.id }).then(res => {
+                      history.push(`/salary`)
+                    })
+                  }}
+                >
+                  <a href="javascript:;">删除</a>
+                </Popconfirm>
+              </Fragment>
             ) : null}
           </span>
         )
@@ -217,4 +242,21 @@ const QueryList = props => {
   )
 }
 
-export default QueryList
+function mapStateToProps(state) {
+  const salary = state.salary
+  const common = state.common
+  return {
+    salary,
+    common
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    action: {
+      ...dispatch.salary
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(QueryList)
