@@ -17,6 +17,7 @@ module.exports = async ctx => {
     }
     profile = JSON.stringify(profile)
     params.profile = profile
+    params.checkUserId = ctx.session.user && ctx.session.user.id
   }
 
   await salary.update(

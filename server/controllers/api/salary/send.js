@@ -49,7 +49,7 @@ module.exports = async ctx => {
   const sendcode = await sendFun()
 
   if (sendcode.code === 0) {
-    item.sendUserId = ctx.user.id
+    item.sendUserId = ctx.session.user && ctx.session.user.id
     item.sendStatus = 2
     await salary.update(
       {
@@ -62,7 +62,7 @@ module.exports = async ctx => {
       data: ''
     }
   } else {
-    item.sendUserId = ctx.user.id
+    item.sendUserId = ctx.session.user && ctx.session.user.id
     item.sendStatus = 0
     await salary.update(
       {

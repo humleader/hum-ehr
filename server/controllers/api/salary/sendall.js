@@ -1,26 +1,18 @@
 const Salary = require('daos/salary')
 const emailReport = require('utils/email/email-report')
 const transporter = require('utils/email/nodemailer')
+const redisStore = require('utils/redis-store')
 const attachment = require('utils/email/attachment')
 const env = process.env.NODE_ENV || 'development'
 
-const fs = require('fs')
-const path = require('path')
-const root = path.join(__dirname, '../../../')
-
 module.exports = async ctx => {
   const salary = new Salary()
-  let objsend = fs.readFileSync(path.join(root, 'output/temp.json'), 'utf-8')
-  objsend = JSON.parse(objsend)
+  const userId = ctx.session.user && ctx.session.user.id
+  const EmailSend = await redisStore.get('KOA_HUM:EmailSend')
   let allSalary
   let needEmail
-  if (!objsend.flag) {
-    fs.writeFileSync(
-      path.join(root, `output/temp.json`),
-      JSON.stringify({
-        flag: true
-      })
-    )
+  if (!EmailSend) {
+    await redisStore.set('KOA_HUM:EmailSend', true)
     allSalary = await salary.findAll({
       where: {
         sendStatus: 1
@@ -29,22 +21,24 @@ module.exports = async ctx => {
     if (!allSalary) {
       ctx.body = {
         code: 1,
-        error: '获取邮件错误！'
+        error: '获取需要发送的邮件错误！'
       }
+      await redisStore.destroy('KOA_HUM:EmailSend')
       return
     }
     needEmail = allSalary.length
     if (allSalary.length === 0) {
       ctx.body = {
         code: 1,
-        error: '邮件需Check完成才能发送！'
+        error: '没有需要发送的薪资单！'
       }
+      await redisStore.destroy('KOA_HUM:EmailSend')
       return
     }
   } else {
     ctx.body = {
       code: 1,
-      error: '邮件在拼命发送中，请稍后再操作！'
+      error: '薪资单在拼命发送中，请稍后再操作！'
     }
     return
   }
@@ -130,10 +124,10 @@ module.exports = async ctx => {
       const sendcode = await sendFun()
 
       if (sendcode.code === 0) {
-        item.sendUserId = ctx.user.id
+        item.sendUserId = userId
         item.sendStatus = 2
         if (item2) {
-          item2.sendUserId = ctx.user.id
+          item2.sendUserId = userId
           item2.sendStatus = 2
           await salary.update(
             {
@@ -143,10 +137,10 @@ module.exports = async ctx => {
           )
         }
       } else {
-        item.sendUserId = ctx.user.id
+        item.sendUserId = userId
         item.sendStatus = 0
         if (item2) {
-          item2.sendUserId = ctx.user.id
+          item2.sendUserId = userId
           item2.sendStatus = 0
           await salary.update(
             {
@@ -164,12 +158,7 @@ module.exports = async ctx => {
       )
       sendMultipleFun(todo)
     } else {
-      fs.writeFileSync(
-        path.join(root, `output/temp.json`),
-        JSON.stringify({
-          flag: false
-        })
-      )
+      await redisStore.destroy('KOA_HUM:EmailSend')
       const htmlstr = emailReport({
         needEmail,
         errorEmail,

@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
-import { Button, Popconfirm, Divider } from 'antd'
-import { Link } from 'react-router-dom'
+import { Button, Popconfirm, Divider, Upload, Icon, message } from 'antd'
 
 import './index.less'
 import history from 'common/history'
@@ -22,7 +21,7 @@ const salaryMap = [
   {
     label: '待发送',
     value: 1,
-    color: '#ff7000'
+    color: '#2db7f5'
   },
   {
     label: '已发送',
@@ -32,7 +31,7 @@ const salaryMap = [
   {
     label: '未发送',
     value: 3,
-    color: '#EF6555'
+    color: '#94989b'
   }
 ]
 
@@ -214,6 +213,27 @@ const QueryList = props => {
     }
   }
 
+  const uploadProps = {
+    name: 'file',
+    action: '/ehr/api/salary/save',
+    showUploadList: false,
+    onChange: info => {
+      if (info.file.status !== 'uploading') {
+        console.log(info.file, info.fileList)
+      }
+      if (info.file.status === 'done') {
+        if (info.file.response.code !== 0) {
+          message.error(`文件上传失败！`)
+        } else {
+          message.success(`${info.file.name} file uploaded successfully`)
+          query(params)
+        }
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} file upload failed.`)
+      }
+    }
+  }
+
   return (
     <div className="page-salary">
       <HumBreadcrumb item="工资管理" />
@@ -226,9 +246,34 @@ const QueryList = props => {
           }}
           toolBar={
             <ToolBar>
-              <Button type="primary">
-                <Link to="/salary/add">新增</Link>
-              </Button>
+              <Upload {...uploadProps}>
+                <Button type="primary">
+                  <Icon type="upload" /> 上传薪资Excel
+                </Button>
+              </Upload>
+              <Popconfirm
+                placement="topRight"
+                title={
+                  <div>
+                    <p>你确定要发送吗？</p>
+                  </div>
+                }
+                onConfirm={() => {
+                  action
+                    .sendall()
+                    .then(res => {
+                      message.success('薪资单拼命发送ing，发送完成会收到邮件提醒，请注意查收噢！')
+                    })
+                    .catch(res => {
+                      message.error(res.message)
+                    })
+                }}
+              >
+                <Button className="sent" type="primary">
+                  <Icon type="mail" />
+                  发送所有
+                </Button>
+              </Popconfirm>
             </ToolBar>
           }
           xTable={{

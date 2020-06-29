@@ -1,41 +1,26 @@
-import React, { Component } from 'react'
-import './index.less'
-import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Button, Popconfirm, Switch } from 'antd'
 
-class Preview extends Component {
-  static propTypes = {
-    match: PropTypes.object,
-    user: PropTypes.object,
-    salary: PropTypes.object,
-    action: PropTypes.object
-  }
+import './index.less'
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: false
-    }
-  }
+const Preview = props => {
+  const { match, salary, action } = props
+  const { id } = match.params || {}
 
-  componentDidMount() {
-    this.queryById()
-  }
+  const { editData } = salary.toJS()
+  const str = { 0: '待发送', 1: '待发送', 2: '已发送', 3: 'Check' }[editData.sendStatus] || 'Check'
 
-  queryById = () => {
-    const { match } = this.props
-    const { id } = match.params || {}
-    const { queryById } = this.props.action
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
     if (id) {
-      queryById(match.params.id)
+      action.queryById(id)
     }
-  }
+    return () => {}
+  }, [id])
 
-  componentWillUnmount() {}
-  onSwitchLogoChange = val => {
-    const { action, salary } = this.props
-    const { editData } = salary.toJS()
+  const onSwitchLogoChange = val => {
     editData.isLogo = val ? 0 : 1
     action
       .check({
@@ -48,9 +33,7 @@ class Preview extends Component {
       })
   }
 
-  onSwitchEnChange = val => {
-    const { action, salary } = this.props
-    const { editData } = salary.toJS()
+  const onSwitchEnChange = val => {
     editData.isEn = val ? 0 : 1
     action
       .check({
@@ -63,9 +46,7 @@ class Preview extends Component {
       })
   }
 
-  onSwitchChange = val => {
-    const { action, salary } = this.props
-    const { editData } = salary.toJS()
+  const onSwitchChange = val => {
     editData.preMonth = val ? 0 : 1
     action
       .check({
@@ -79,16 +60,12 @@ class Preview extends Component {
       })
   }
 
-  checkEmail = () => {
-    const { action, salary, user } = this.props
+  const checkEmail = () => {
     const { editData } = salary.toJS()
-    const { userInfo } = user.toJS()
-    editData.checkUserId = userInfo.id
     editData.sendStatus = 1
     action
       .check({
         id: editData.id,
-        checkUserId: userInfo.id,
         sendStatus: 1
       })
       .then(res => {
@@ -96,93 +73,78 @@ class Preview extends Component {
       })
   }
 
-  render() {
-    const { match, salary, action } = this.props
-    const { id } = match.params || {}
-
-    const { editData } = salary.toJS()
-    const str =
-      { 0: '待发送', 1: '待发送', 2: '已发送', 3: 'Check' }[editData.sendStatus] || 'Check'
-
-    return (
-      <div className="preview">
-        <div className="operation">
-          {str === 'Check' ? (
-            <Button onClick={this.checkEmail} className="check" type="primary">
+  return (
+    <div className="preview">
+      <div className="operation">
+        {str === 'Check' ? (
+          <Button onClick={checkEmail} className="check" type="primary">
+            {str}
+          </Button>
+        ) : str === '已发送' ? (
+          <Button className="check" disabled type="primary">
+            {str}
+          </Button>
+        ) : (
+          <Popconfirm
+            placement="topRight"
+            title={
+              <div>
+                <p>你确定要发送邮件吗？</p>
+              </div>
+            }
+            onConfirm={() => {
+              setLoading(true)
+              action.send(editData).then(res => {
+                setLoading(false)
+                editData.sendStatus = 2
+                action.setEditData(editData)
+              })
+            }}
+          >
+            <Button loading={loading} className="check" type="primary">
               {str}
             </Button>
-          ) : str === '已发送' ? (
-            <Button className="check" disabled type="primary">
-              {str}
-            </Button>
-          ) : (
-            <Popconfirm
-              placement="topRight"
-              title={
-                <div>
-                  <p>你确定要发送邮件吗？</p>
-                </div>
-              }
-              onConfirm={() => {
-                this.setState({
-                  loading: true
-                })
-                action.send(editData).then(res => {
-                  this.setState({
-                    loading: false
-                  })
-                  editData.sendStatus = 2
-                  action.setEditData(editData)
-                })
-              }}
-            >
-              <Button loading={this.state.loading} className="check" type="primary">
-                {str}
-              </Button>
-            </Popconfirm>
-          )}
-          <div className="g-switch">
-            <Switch
-              defaultChecked={!editData.isLogo}
-              checked={!editData.isLogo}
-              checkedChildren="logo"
-              unCheckedChildren="没logo"
-              onChange={this.onSwitchLogoChange}
-            />
-            <Switch
-              defaultChecked={!editData.isEn}
-              checked={!editData.isEn}
-              checkedChildren="英文"
-              unCheckedChildren="中文"
-              onChange={this.onSwitchEnChange}
-            />
-            <Switch
-              defaultChecked={!editData.preMonth}
-              checked={!editData.preMonth}
-              checkedChildren="当月"
-              unCheckedChildren="上个月"
-              onChange={this.onSwitchChange}
-            />
-          </div>
+          </Popconfirm>
+        )}
+        <div className="g-switch">
+          <Switch
+            defaultChecked={!editData.isLogo}
+            checked={!editData.isLogo}
+            checkedChildren="logo"
+            unCheckedChildren="没logo"
+            onChange={onSwitchLogoChange}
+          />
+          <Switch
+            defaultChecked={!editData.isEn}
+            checked={!editData.isEn}
+            checkedChildren="英文"
+            unCheckedChildren="中文"
+            onChange={onSwitchEnChange}
+          />
+          <Switch
+            defaultChecked={!editData.preMonth}
+            checked={!editData.preMonth}
+            checkedChildren="当月"
+            unCheckedChildren="上个月"
+            onChange={onSwitchChange}
+          />
         </div>
-        <iframe
-          name="ifrmname"
-          src={`/ehr/api/salary/preview?id=${id}`}
-          width="100%"
-          height="90%"
-          frameBorder="0"
-        />
       </div>
-    )
-  }
+      <iframe
+        name="ifrmname"
+        src={`/ehr/api/salary/preview?id=${id}`}
+        width="100%"
+        height="90%"
+        frameBorder="0"
+      />
+    </div>
+  )
 }
 
 function mapStateToProps(state) {
   const salary = state.salary
-  const user = state.user
   return {
-    salary,
-    user
+    salary
   }
 }
 

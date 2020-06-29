@@ -25,7 +25,7 @@ module.exports = async ctx => {
           temp.contact = row.contact
           temp.salaryPeriod = row.salaryPeriod
           temp.accountNo = row.cardNo
-          temp.addUserId = ctx.user.id
+          temp.addUserId = ctx.session.user && ctx.session.user.id
           temp.sendStatus = 3
           params.push(temp)
         }

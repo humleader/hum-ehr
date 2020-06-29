@@ -4,7 +4,7 @@ const Docxtemplater = require('docxtemplater')
 const fs = require('fs')
 const path = require('path')
 const toPdf = require('office-to-pdf')
-const root = path.join(__dirname, '../')
+const root = path.join(__dirname, '../../')
 
 const renderWord = async item => {
   // Load the docx file as a binary

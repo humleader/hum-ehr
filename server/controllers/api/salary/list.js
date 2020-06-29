@@ -59,7 +59,10 @@ module.exports = async ctx => {
       ...filter
     },
     ...ctx.query,
-    order: [['updateTime', 'DESC']]
+    order: [
+      ['sendStatus', 'DESC'],
+      ['updateTime', 'DESC']
+    ]
   })
 
   ctx.body = {
