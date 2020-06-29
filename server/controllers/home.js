@@ -7,7 +7,7 @@ module.exports = async ctx => {
   const initState = getInitState()
   const config = await getConfig(ctx)
 
-  if (ctx.session && !ctx.session.user && env !== 'development') {
+  if (!ctx.session && env !== 'development') {
     ctx.redirect(`/login?callbackUrl=${encodeURIComponent(ctx.path)}`)
   } else {
     await render(ctx)('index', {
