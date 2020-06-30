@@ -9,6 +9,7 @@ const initialState = im.fromJS({
     createTime: moment(),
     pageIndex: 1
   },
+  historyParams: undefined,
   editData: {}
 })
 
@@ -21,6 +22,9 @@ export default {
     setParams: (state, payload) => {
       return state.set('params', im.fromJS(payload))
     },
+    setHistoryParams: (state, payload) => {
+      return state.set('historyParams', im.fromJS(payload))
+    },
     setEditData: (state, payload) => {
       return state.set('editData', im.fromJS(payload))
     }
@@ -29,7 +33,6 @@ export default {
     async query(params, rootState) {
       const data = await axios.get('/salary/list', { params })
       this.listSource(data)
-      this.setParams(params)
       return data
     },
     check(data, rootState) {
@@ -48,8 +51,8 @@ export default {
       const data = await axios.get('/salary/getone', { params: { id } })
       this.setEditData(data)
     },
-    async remove(id, rootState) {
-      await axios.post(`/user/remove/${id}`)
+    remove(id, rootState) {
+      return axios.post(`/user/remove/${id}`)
     }
   }
 }

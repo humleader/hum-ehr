@@ -3,7 +3,7 @@ import axios from 'common/axios'
 
 const initialState = im.fromJS({
   regionsDate: [],
-  list: [],
+  userList: [],
   modal: {
     visible: false,
     currentRecord: {},
@@ -24,7 +24,7 @@ export default {
       return state.update('modal', modal => modal.set('visible', false).set('loading', false))
     },
     setUserList: (state, payload) => {
-      return state.set('list', im.fromJS(payload))
+      return state.set('userList', im.fromJS(payload))
     },
     setProList: (state, payload = {}) => {
       return state.update('modal', modal => modal.set('proList', im.fromJS(payload)))

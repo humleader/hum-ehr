@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { Button, Popconfirm, Divider, Upload, Icon, message } from 'antd'
@@ -39,9 +39,22 @@ const QueryList = props => {
   const { salary, action, common } = props
   const listSource = salary.get('listSource').toJS()
   const params = salary.get('params').toJS()
-  const userList = common.get('list').toJS()
+  let historyParams = salary.get('historyParams')
+  historyParams = historyParams && historyParams.toJS()
+  const userList = common.get('userList').toJS()
+
+  const [backParams, setBackParams] = useState({})
+
+  useEffect(() => {
+    if (historyParams) {
+      setBackParams(historyParams)
+      action.setHistoryParams(undefined)
+    }
+    return () => {}
+  }, [])
 
   const query = data => {
+    setBackParams(data)
     return action.query(data)
   }
 
@@ -164,7 +177,10 @@ const QueryList = props => {
       title: '员工姓名',
       type: 'input',
       placeholder: '输入员工中文或英文名字',
-      dataIndex: 'name'
+      dataIndex: 'name',
+      formOptions: {
+        initialValue: backParams.name
+      }
     },
     {
       title: '发送状态',
@@ -192,6 +208,9 @@ const QueryList = props => {
           value: 3
         }
       ],
+      formOptions: {
+        initialValue: backParams.sendStatus
+      },
       dataIndex: 'sendStatus'
     },
     {
@@ -200,7 +219,7 @@ const QueryList = props => {
       dataIndex: 'createTime',
       placeholder: '选择月份',
       formOptions: {
-        initialValue: params.createTime
+        initialValue: backParams.createTime
       }
     }
   ]
@@ -208,6 +227,7 @@ const QueryList = props => {
   const onRowClick = record => {
     return {
       onClick: () => {
+        action.setHistoryParams(backParams)
         history.push(`/salary/preview/${record.id}`)
       }
     }
@@ -239,7 +259,8 @@ const QueryList = props => {
       <HumBreadcrumb item="工资管理" />
       <HumContainer className="salary-container">
         <HumQuery
-          initParams={params}
+          params={params}
+          historyParams={historyParams}
           query={query}
           xForm={{
             formFields
