@@ -14,9 +14,9 @@ import DotStatus from 'components/dot-status'
 
 const salaryMap = [
   {
-    label: '发送失败',
-    value: 0,
-    color: '#357BFF'
+    label: '已发送',
+    value: 2,
+    color: '#07C790'
   },
   {
     label: '待发送',
@@ -24,14 +24,14 @@ const salaryMap = [
     color: '#2db7f5'
   },
   {
-    label: '已发送',
-    value: 2,
-    color: '#07C790'
-  },
-  {
     label: '未发送',
     value: 3,
     color: '#94989b'
+  },
+  {
+    label: '发送失败',
+    value: 4,
+    color: '#f50'
   }
 ]
 
@@ -107,7 +107,7 @@ const QueryList = props => {
       width: '140px',
       dataIndex: 'sendStatus',
       render: item => {
-        const { color, label } = salaryMap[item]
+        const { color, label } = salaryMap.find(res => res.value === item)
 
         return <DotStatus color={color} text={label} />
       }
@@ -177,7 +177,7 @@ const QueryList = props => {
         },
         {
           label: '发送失败',
-          value: 0
+          value: 4
         },
         {
           label: '待发送',

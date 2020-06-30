@@ -7,7 +7,7 @@ module.exports = async ctx => {
 
   await salary.update(
     {
-      sendStatus: 4
+      sendStatus: 5
     },
     { where: { id: params.id } }
   )

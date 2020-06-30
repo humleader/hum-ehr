@@ -22,7 +22,7 @@ module.exports = async ctx => {
     filter.sendStatus = sendStatus
   } else {
     filter.sendStatus = {
-      [Op.ne]: 4
+      [Op.ne]: 5
     }
   }
   if (name) {

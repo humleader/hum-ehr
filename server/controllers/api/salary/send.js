@@ -22,7 +22,7 @@ module.exports = async ctx => {
 
   const mailOptions = {
     from: '"HR" <hr@humleader.com>', // sender address
-    to: env === 'development' ? 'lisang881021@sina.com,admin@humleader.com' : data.eMail, // list of receivers
+    to: env === 'development' ? 'admin@humleader.com' : data.eMail, // list of receivers
     subject: `Payslip of ${data.monthyear}`, // Subject line
     html: html, // html body
     attachments: [
@@ -63,7 +63,7 @@ module.exports = async ctx => {
     }
   } else {
     item.sendUserId = ctx.session.user && ctx.session.user.id
-    item.sendStatus = 0
+    item.sendStatus = 4
     await salary.update(
       {
         ...item
