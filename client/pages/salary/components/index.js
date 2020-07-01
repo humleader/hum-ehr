@@ -142,6 +142,7 @@ const QueryList = props => {
               href="javascript:;"
               onClick={e => {
                 e.stopPropagation()
+                action.setHistoryParams(backParams)
                 history.push(`/salary/preview/${record.id}`)
               }}
             >
@@ -157,13 +158,22 @@ const QueryList = props => {
                       <p>你确定要删除吗？</p>
                     </div>
                   }
-                  onConfirm={() => {
+                  onConfirm={e => {
+                    e.stopPropagation()
+                    action.setHistoryParams(backParams)
                     action.delete({ id: record.id }).then(res => {
                       history.push(`/salary`)
                     })
                   }}
                 >
-                  <a href="javascript:;">删除</a>
+                  <a
+                    href="javascript:;"
+                    onClick={e => {
+                      e.stopPropagation()
+                    }}
+                  >
+                    删除
+                  </a>
                 </Popconfirm>
               </Fragment>
             ) : null}
