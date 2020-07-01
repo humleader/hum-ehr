@@ -1,6 +1,5 @@
 const { baseURI, appCode, apiPrefix, pageTitle } = require('utils/config')
 
-// 获取用户列表
 const env = process.env.NODE_ENV || 'development'
 
 module.exports = async ctx => {
@@ -26,9 +25,8 @@ function getInitState() {
 
 // 获取全局配置
 async function getConfig(ctx) {
-  let userInfo = {}
-  userInfo = {
-    ...ctx.session.user
+  const userInfo = {
+    ...(ctx.session ? ctx.session.user : {})
   }
 
   return {
