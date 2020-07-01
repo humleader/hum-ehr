@@ -158,6 +158,9 @@ const QueryList = props => {
                       <p>你确定要删除吗？</p>
                     </div>
                   }
+                  onCancel={e => {
+                    e.stopPropagation()
+                  }}
                   onConfirm={e => {
                     e.stopPropagation()
                     action.setHistoryParams(backParams)
