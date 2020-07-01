@@ -289,7 +289,7 @@ class FormAdd extends Component {
             </FormItem>
 
             {nationality === 1 ? (
-              <>
+              <Fragment>
                 <FormItem className="add-formitem" label="身份ID" {...formItemLayout50}>
                   {getFieldDecorator('idNo', {
                     rules: []
@@ -300,9 +300,9 @@ class FormAdd extends Component {
                     rules: []
                   })(<Input />)}
                 </FormItem>
-              </>
+              </Fragment>
             ) : (
-              <>
+              <Fragment>
                 <div className="line3">
                   <FormItem className="add-formitem" label="国家" {...formItemLayout30}>
                     {getFieldDecorator('country', {
@@ -320,10 +320,10 @@ class FormAdd extends Component {
                     })(<DatePicker />)}
                   </FormItem>
                 </div>
-              </>
+              </Fragment>
             )}
             {maritalStatus === 3 ? (
-              <>
+              <Fragment>
                 <div className="title">子女信息</div>
                 <Divider className="dline" />
                 <FormItem className="add-basis100" {...formItemLayout}>
@@ -337,7 +337,7 @@ class FormAdd extends Component {
                     />
                   )}
                 </FormItem>
-              </>
+              </Fragment>
             ) : null}
 
             <div className="title">联系住址</div>
@@ -468,7 +468,7 @@ class FormAdd extends Component {
             {fundStatus !== '' ? (
               <Fragment>
                 {fundStatus === 2 ? (
-                  <>
+                  <Fragment>
                     <FormItem className="add-formitem" label="需缴存公司" {...formItemLayout50}>
                       {getFieldDecorator('fundCompany', {
                         rules: []
@@ -484,7 +484,7 @@ class FormAdd extends Component {
                         rules: []
                       })(<Input />)}
                     </FormItem>
-                  </>
+                  </Fragment>
                 ) : (
                   <FormItem className="add-formitem" label="个人公积金账户" {...formItemLayout50}>
                     {getFieldDecorator('fundNo', {
@@ -499,7 +499,7 @@ class FormAdd extends Component {
             <Divider className="dline" />
 
             {childEducation.key === 1 ? (
-              <>
+              <Fragment>
                 <FormItem className="add-formitem" label="子女教育" {...formItemLayout50}>
                   {getFieldDecorator('childEducation', {
                     initialValue: childEducation.key || 2,
@@ -527,7 +527,7 @@ class FormAdd extends Component {
                     />
                   )}
                 </FormItem>
-              </>
+              </Fragment>
             ) : (
               <FormItem className="add-basis100" label="子女教育" {...formItemLayout}>
                 {getFieldDecorator('childEducation', {
@@ -547,7 +547,7 @@ class FormAdd extends Component {
             )}
 
             {supportElderly.key === 1 ? (
-              <>
+              <Fragment>
                 <FormItem className="add-formitem" label="赡养老人" {...formItemLayout50}>
                   {getFieldDecorator('supportElderly', {
                     initialValue: supportElderly.key || 2,
@@ -575,7 +575,7 @@ class FormAdd extends Component {
                     />
                   )}
                 </FormItem>
-              </>
+              </Fragment>
             ) : (
               <FormItem className="add-basis100" label="赡养老人" {...formItemLayout}>
                 {getFieldDecorator('supportElderly', {
@@ -595,7 +595,7 @@ class FormAdd extends Component {
             )}
 
             {houseRent.key === 1 ? (
-              <>
+              <Fragment>
                 <FormItem className="add-formitem" label="住房租金" {...formItemLayout50}>
                   {getFieldDecorator('houseRent', {
                     initialValue: houseRent.key || 2,
@@ -623,7 +623,7 @@ class FormAdd extends Component {
                     />
                   )}
                 </FormItem>
-              </>
+              </Fragment>
             ) : (
               <FormItem className="add-basis100" label="住房租金" {...formItemLayout}>
                 {getFieldDecorator('houseRent', {
@@ -643,7 +643,7 @@ class FormAdd extends Component {
             )}
 
             {houseLoan.key === 1 ? (
-              <>
+              <Fragment>
                 <FormItem className="add-formitem" label="住房房贷" {...formItemLayout50}>
                   {getFieldDecorator('houseLoan', {
                     initialValue: houseLoan.key || 2,
@@ -671,7 +671,7 @@ class FormAdd extends Component {
                     />
                   )}
                 </FormItem>
-              </>
+              </Fragment>
             ) : (
               <FormItem className="add-basis100" label="住房房贷" {...formItemLayout}>
                 {getFieldDecorator('houseLoan', {
@@ -691,7 +691,7 @@ class FormAdd extends Component {
             )}
 
             {continueEducation.key === 1 ? (
-              <>
+              <Fragment>
                 <FormItem className="add-formitem" label="继续教育" {...formItemLayout50}>
                   {getFieldDecorator('continueEducation', {
                     initialValue: continueEducation.key || 2,
@@ -719,7 +719,7 @@ class FormAdd extends Component {
                     />
                   )}
                 </FormItem>
-              </>
+              </Fragment>
             ) : (
               <FormItem className="add-basis100" label="继续教育" {...formItemLayout}>
                 {getFieldDecorator('continueEducation', {

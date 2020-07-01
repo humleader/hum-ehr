@@ -78,7 +78,7 @@ const Preview = props => {
 
   return (
     <div className="page-preview">
-      <HumBreadcrumb item="工资管理" />
+      <HumBreadcrumb item={[{ name: '工资管理', link: '/salary' }, { name: '工资预览' }]} />
       <HumContainer className="preview-container">
         <div className="operation">
           {str === 'Check' ? (

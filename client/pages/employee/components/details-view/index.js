@@ -1,11 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import './index.less'
 import { Button, Form, Row, Col, Divider, Radio } from 'antd'
 import EditTable from '../edit-table'
-
-const { Fragment } = React
 
 const FormItem = Form.Item
 
@@ -147,16 +145,16 @@ class Views extends Component {
               </FormItem>
 
               {nationality === 1 ? (
-                <>
+                <Fragment>
                   <FormItem className="add-formitem" label="身份ID" {...formItemLayout50}>
                     {editData.idNo}
                   </FormItem>
                   <FormItem className="add-formitem" label="户口性质" {...formItemLayout50}>
                     {editData.hukouType}
                   </FormItem>
-                </>
+                </Fragment>
               ) : (
-                <>
+                <Fragment>
                   <div className="line3">
                     <FormItem className="add-formitem" label="国家" {...formItemLayout30}>
                       {editData.country}
@@ -168,7 +166,7 @@ class Views extends Component {
                       {editData.passportTime}
                     </FormItem>
                   </div>
-                </>
+                </Fragment>
               )}
               {maritalStatus === 3 ? (
                 <Fragment>
@@ -256,9 +254,9 @@ class Views extends Component {
                 {fundStatusop[fundStatus]}
               </FormItem>
               {fundStatus !== '' ? (
-                <>
+                <Fragment>
                   {fundStatus === 2 ? (
-                    <>
+                    <Fragment>
                       <FormItem className="add-formitem" label="需缴存公司" {...formItemLayout50}>
                         {editData.fundCompany}
                       </FormItem>
@@ -276,20 +274,20 @@ class Views extends Component {
                       >
                         {editData.fundNo}
                       </FormItem>
-                    </>
+                    </Fragment>
                   ) : (
                     <FormItem className="add-formitem" label="个人公积金账户" {...formItemLayout50}>
                       {editData.fundNo}
                     </FormItem>
                   )}
-                </>
+                </Fragment>
               ) : null}
 
               <div className="title">专项扣除</div>
               <Divider className="dline" />
 
               {childEducation.key === 1 ? (
-                <>
+                <Fragment>
                   <FormItem className="add-formitem" label="子女教育" {...formItemLayout50}>
                     {getFieldDecorator('childEducation', {
                       initialValue: childEducation.key || 2,
@@ -309,7 +307,7 @@ class Views extends Component {
                   <FormItem className="add-formitem" label="子女教育额度" {...formItemLayout50}>
                     {childEducation.val}
                   </FormItem>
-                </>
+                </Fragment>
               ) : (
                 <FormItem className="add-basis100" label="子女教育" {...formItemLayout}>
                   {getFieldDecorator('childEducation', {
@@ -330,7 +328,7 @@ class Views extends Component {
               )}
 
               {supportElderly.key === 1 ? (
-                <>
+                <Fragment>
                   <FormItem className="add-formitem" label="赡养老人" {...formItemLayout50}>
                     {getFieldDecorator('supportElderly', {
                       initialValue: supportElderly.key || 2,
@@ -350,7 +348,7 @@ class Views extends Component {
                   <FormItem className="add-formitem" label="赡养老人额度" {...formItemLayout50}>
                     {supportElderly.val}
                   </FormItem>
-                </>
+                </Fragment>
               ) : (
                 <FormItem className="add-basis100" label="赡养老人" {...formItemLayout}>
                   {getFieldDecorator('supportElderly', {
@@ -371,7 +369,7 @@ class Views extends Component {
               )}
 
               {houseRent.key === 1 ? (
-                <>
+                <Fragment>
                   <FormItem className="add-formitem" label="住房租金" {...formItemLayout50}>
                     {getFieldDecorator('houseRent', {
                       initialValue: houseRent.key || 2,
@@ -391,7 +389,7 @@ class Views extends Component {
                   <FormItem className="add-formitem" label="住房租金额度" {...formItemLayout50}>
                     {houseRent.val}
                   </FormItem>
-                </>
+                </Fragment>
               ) : (
                 <FormItem className="add-basis100" label="住房租金" {...formItemLayout}>
                   {getFieldDecorator('houseRent', {
@@ -412,7 +410,7 @@ class Views extends Component {
               )}
 
               {houseLoan.key === 1 ? (
-                <>
+                <Fragment>
                   <FormItem className="add-formitem" label="住房房贷" {...formItemLayout50}>
                     {getFieldDecorator('houseLoan', {
                       initialValue: houseLoan.key || 2,
@@ -432,7 +430,7 @@ class Views extends Component {
                   <FormItem className="add-formitem" label="住房房贷额度" {...formItemLayout50}>
                     {houseLoan.val}
                   </FormItem>
-                </>
+                </Fragment>
               ) : (
                 <FormItem className="add-basis100" label="住房房贷" {...formItemLayout}>
                   {getFieldDecorator('houseLoan', {
@@ -453,7 +451,7 @@ class Views extends Component {
               )}
 
               {continueEducation.key === 1 ? (
-                <>
+                <Fragment>
                   <FormItem className="add-formitem" label="继续教育" {...formItemLayout50}>
                     {getFieldDecorator('continueEducation', {
                       initialValue: continueEducation.key || 2,
@@ -473,7 +471,7 @@ class Views extends Component {
                   <FormItem className="add-formitem" label="继续教育额度" {...formItemLayout50}>
                     {continueEducation.val}
                   </FormItem>
-                </>
+                </Fragment>
               ) : (
                 <FormItem className="add-basis100" label="继续教育" {...formItemLayout}>
                   {getFieldDecorator('continueEducation', {

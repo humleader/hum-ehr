@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import './index.less'
 
 import FormAdd from '../form-add'
-import FormEdit from '../form-edit'
 
 class Add extends Component {
   static propTypes = {
@@ -40,21 +39,13 @@ class Add extends Component {
   }
 
   render() {
-    const { match, employee, common, user, action, company } = this.props
+    const { match, employee, common, action, company } = this.props
     const { id } = match.params || ''
     const regionsDate = common.get('regionsDate')
 
     return (
       <div className="m-content m-employee-add">
-        {id ? (
-          <FormEdit
-            employee={employee}
-            company={company}
-            regionsDate={regionsDate}
-            user={user}
-            action={action}
-          />
-        ) : (
+        {id ? null : (
           <FormAdd
             company={company}
             employee={employee}
