@@ -13,6 +13,20 @@ const getCurrentMonthLast = time => {
   return nextMonthFirstDay.getDate()
 }
 
+const getStart = time => {
+  const curTime = new Date(time)
+  const year = curTime.getFullYear()
+  const month = curTime.getMonth() + 1
+  return new Date(`${year}-${month}-01 00:00:00`)
+}
+const getEnd = time => {
+  const curTime = new Date(time)
+  const year = curTime.getFullYear()
+  const month = curTime.getMonth() + 1
+  const lastDay = getCurrentMonthLast(curTime)
+  return new Date(`${year}-${month}-${lastDay} 24:00:00`)
+}
+
 module.exports = async ctx => {
   const salary = new Salary()
   const filter = {}
@@ -41,12 +55,8 @@ module.exports = async ctx => {
   }
 
   if (createTime) {
-    const curTime = new Date(createTime)
-    const year = curTime.getFullYear()
-    const month = curTime.getMonth() + 1
-    const lastDay = getCurrentMonthLast(curTime)
-    const start = new Date(`${year}-${month}-01 00:00:00`)
-    const end = new Date(`${year}-${month}-${lastDay} 24:00:00`)
+    const start = getStart(createTime[0])
+    const end = getEnd(createTime[1])
 
     filter.createTime = {
       [Op.lt]: end,

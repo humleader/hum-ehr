@@ -44,6 +44,7 @@ const QueryList = props => {
   const userList = common.get('userList').toJS()
 
   const [backParams, setBackParams] = useState({})
+  const [mode, setMode] = useState(['month', 'month'])
 
   useEffect(() => {
     if (historyParams) {
@@ -228,9 +229,19 @@ const QueryList = props => {
     },
     {
       title: '操作时间',
-      type: 'month',
+      type: 'rangePicker',
       dataIndex: 'createTime',
       placeholder: '选择月份',
+      props: {
+        placeholder: ['开始月份', '结束月份'],
+        format: 'YYYY-MM',
+        onPanelChange: (value, mode) => {
+          backParams.createTime = value
+          setBackParams(backParams)
+          setMode([mode[0] === 'date' ? 'month' : mode[0], mode[1] === 'date' ? 'month' : mode[1]])
+        },
+        mode: mode
+      },
       formOptions: {
         initialValue: backParams.createTime
       }

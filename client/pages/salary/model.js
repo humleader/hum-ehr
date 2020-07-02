@@ -6,7 +6,7 @@ const initialState = im.fromJS({
   listSource: {},
   params: {
     pageSize: 20,
-    createTime: moment(),
+    createTime: [moment(), moment()],
     pageIndex: 1
   },
   historyParams: undefined,
