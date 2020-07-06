@@ -70,6 +70,7 @@ const QueryList = props => {
   const columns = [
     {
       title: '中文名字',
+      width: '90px',
       dataIndex: 'chineseName',
       render: item => {
         return <div className="overflow-ellipsis">{item}</div>
@@ -78,6 +79,7 @@ const QueryList = props => {
     {
       title: '英文名字',
       dataIndex: 'englishName',
+      width: '90px',
       render: item => {
         return <div className="overflow-ellipsis">{item}</div>
       }
@@ -87,21 +89,56 @@ const QueryList = props => {
       dataIndex: 'eMail'
     },
     {
-      title: '薪资',
+      title: '基本薪资',
+      width: '120px',
       dataIndex: 'basicSalary',
       render: item => {
         return `${item}元`
       }
     },
     {
+      title: '总计税前收入',
+      width: '120px',
+      render: item => {
+        const profile = JSON.parse(item.profile)
+        return `${profile.beforeSC === '-' ? profile.beforeSC : profile.beforeSC + '元'}`
+      }
+    },
+    {
+      title: '社保合计',
+      width: '100px',
+      render: item => {
+        const profile = JSON.parse(item.profile)
+        return `${profile.totalSC === '-' ? profile.totalSC : profile.totalSC + '元'}`
+      }
+    },
+    {
+      title: '个人所得税',
+      width: '120px',
+      render: item => {
+        const profile = JSON.parse(item.profile)
+        return `${profile.iITAmount === '-' ? profile.iITAmount : profile.iITAmount + '元'}`
+      }
+    },
+    {
+      title: '实发工资',
+      width: '120px',
+      render: item => {
+        const profile = JSON.parse(item.profile)
+        return `${profile.takeHomePay === '-' ? profile.takeHomePay : profile.takeHomePay + '元'}`
+      }
+    },
+    {
       title: '发送人',
       dataIndex: 'sendUserId',
+      width: '80px',
       render: item => {
         return showName(item)
       }
     },
     {
       title: 'check修改',
+      width: '100px',
       render: (text, record) => {
         const str = []
         if (record.isLogo) {
@@ -129,6 +166,7 @@ const QueryList = props => {
     {
       title: '操作时间',
       dataIndex: 'updateTime',
+
       render: updateTime => {
         return moment(updateTime).format('YYYY-MM-DD HH:mm:ss')
       }
@@ -136,6 +174,8 @@ const QueryList = props => {
     {
       title: '操作',
       key: 'action',
+      width: '130px',
+      fixed: 'right',
       render: (text, record) => {
         return (
           <span className="actions">
@@ -248,15 +288,6 @@ const QueryList = props => {
     }
   ]
 
-  const onRowClick = record => {
-    return {
-      onClick: () => {
-        action.setHistoryParams(backParams)
-        history.push(`/salary/preview/${record.id}`)
-      }
-    }
-  }
-
   const uploadProps = {
     name: 'file',
     action: '/ehr/api/salary/save',
@@ -323,7 +354,7 @@ const QueryList = props => {
           }
           xTable={{
             columns,
-            onRow: onRowClick,
+            scroll: { x: 1600 },
             dataSource: listSource
           }}
         />
