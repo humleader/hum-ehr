@@ -128,9 +128,23 @@ const SearchForm = props => {
       case 'month':
         return <MonthPicker placeholder={item.placeholder} allowClear {...item.props} />
       case 'date':
-        return <DatePicker format="YYYY-MM-DD" allowClear {...item.props} />
+        return (
+          <DatePicker
+            placeholder={item.placeholder}
+            format="YYYY-MM-DD"
+            allowClear
+            {...item.props}
+          />
+        )
       case 'rangePicker':
-        return <RangePicker format="YYYY-MM-DD" allowClear {...item.props} />
+        return (
+          <RangePicker
+            placeholder={item.placeholder}
+            format="YYYY-MM-DD"
+            allowClear
+            {...item.props}
+          />
+        )
       case 'input':
       default:
         return <Input placeholder={item.placeholder} {...item.props} />

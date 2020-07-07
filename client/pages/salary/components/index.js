@@ -45,6 +45,7 @@ const QueryList = props => {
 
   const [backParams, setBackParams] = useState({})
   const [mode, setMode] = useState(['month', 'month'])
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     if (historyParams) {
@@ -271,14 +272,18 @@ const QueryList = props => {
       title: '操作时间',
       type: 'rangePicker',
       dataIndex: 'createTime',
-      placeholder: '选择月份',
+      placeholder: ['开始月份', '结束月份'],
       props: {
-        placeholder: ['开始月份', '结束月份'],
         format: 'YYYY-MM',
+        open: open,
+        onOpenChange: val => {
+          setOpen(val)
+        },
         onPanelChange: (value, mode) => {
           backParams.createTime = value
           setBackParams(backParams)
           setMode([mode[0] === 'date' ? 'month' : mode[0], mode[1] === 'date' ? 'month' : mode[1]])
+          setOpen(!open)
         },
         mode: mode
       },
