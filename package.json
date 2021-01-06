@@ -30,7 +30,7 @@
     ]
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "echarts": "^4.1.0",
     "qs": "^6.5.1",
     "bluebird": "^3.7.2",
